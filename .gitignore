@@ -27,3 +27,12 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Custom Patterns ###
+*.class
+*.jar
+*.war
+*.ear
+target/
+build/
+bin/
