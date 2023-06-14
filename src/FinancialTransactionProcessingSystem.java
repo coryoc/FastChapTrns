@@ -37,12 +37,12 @@ public class FinancialTransactionProcessingSystem {
 
         Account account = accountMap.get(transaction.getAccountId());
         if (account == null) {
-            throw new AccountNotFoundException("Account not found");
+            throw new AccountNotFoundException("Account not found.");
         }
 
         if (transaction.getType() == TransactionType.PAYMENT) {
             if (account.getBalance().compareTo(transaction.getAmount()) < 0) {
-                throw new InsufficientBalanceException("Insufficient balance");
+                throw new InsufficientBalanceException("Insufficient balance for the attempted transaction.");
             }
             account.setBalance(account.getBalance().subtract(transaction.getAmount()));
         } else if (transaction.getType() == TransactionType.TRANSFER) {
@@ -50,11 +50,11 @@ public class FinancialTransactionProcessingSystem {
             Account destinationAccount = accountMap.get(destinationAccountId);
 
             if (destinationAccount == null) {
-                throw new AccountNotFoundException("Destination account not found");
+                throw new AccountNotFoundException("Destination account not found.");
             }
 
             if (account.getBalance().compareTo(transaction.getAmount()) < 0) {
-                throw new InsufficientBalanceException("Insufficient balance for transfer");
+                throw new InsufficientBalanceException("Insufficient balance for attempted transfer.");
             }
             account.setBalance(account.getBalance().subtract(transaction.getAmount()));
             destinationAccount.setBalance(destinationAccount.getBalance().add(transaction.getAmount()));
@@ -63,7 +63,7 @@ public class FinancialTransactionProcessingSystem {
             String settlementAccountId = transaction.getSettlementAccountId();
             Account settlementAccount = accountMap.get(settlementAccountId);
             if (settlementAccount == null) {
-                throw new AccountNotFoundException("Settlement account not found");
+                throw new AccountNotFoundException("Settlement account not found.");
             }
 
             settlementAccount.setBalance(settlementAccount.getBalance().add(transaction.getAmount()));
@@ -75,15 +75,15 @@ public class FinancialTransactionProcessingSystem {
     private void validateTransaction(Transaction transaction) throws InvalidTransactionException {
 
         if (transaction.getTransactionId() == null || transaction.getTransactionId().isEmpty()) {
-            throw new InvalidTransactionException("Invalid transaction ID");
+            throw new InvalidTransactionException("Invalid transaction ID.");
         }
 
         if (transaction.getAccountId() == null || transaction.getAccountId().isEmpty()) {
-            throw new InvalidTransactionException("Invalid account ID");
+            throw new InvalidTransactionException("Invalid account ID.");
         }
 
         if (transaction.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new InvalidTransactionException("Invalid transaction amount");
+            throw new InvalidTransactionException("Invalid transaction amount.");
         }
     }
 
